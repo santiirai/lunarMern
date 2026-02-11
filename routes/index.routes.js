@@ -1,18 +1,17 @@
 import { Router } from 'express';
 import AllControllers from '../controllers/index.controllers.js';
+import authMiddleware from '../middleware/authMiddleware.js';
 
-const router = Router();
+const studentRouter = Router();
 
-// router.use(express.json());
 
-router.get("/", AllControllers.GetController);
+studentRouter.get("/",authMiddleware, AllControllers.GetController);
 
-// router.listen(3000, () => {
-//     console.log("Server is running on port 3000");
-// })
+studentRouter.post("/", AllControllers.PostController);
 
-router.post("/", AllControllers.PostController);
+studentRouter.put("/", AllControllers.PutController);
 
-router.delete("/", AllControllers.DeleteController);
+studentRouter.delete("/", AllControllers.DeleteController);
 
-export default router;
+
+export default studentRouter;

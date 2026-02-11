@@ -2,7 +2,7 @@ import Student from '../models/Student.model.js';
 
 const AllControllers = {
     GetController: async (req, res) => {
-        try{
+        try {
             console.log("get request received");
             const allStudents = await Student.find({});
             res.status(200).json({
@@ -10,7 +10,7 @@ const AllControllers = {
                 "message": "Data fetched successfully",
                 "data": allStudents
             })
-        }catch(err){
+        } catch (err) {
             res.status(500).json({
                 success: false,
                 "error": "Internal Server Error"
@@ -27,7 +27,7 @@ const AllControllers = {
             res.status(200).json({
                 "success": true,
                 "message": "Data received successfully",
-                "data": []
+                "data": insertedStudent
             })
         } catch (err) {
             res.status(500).json({
@@ -36,10 +36,45 @@ const AllControllers = {
             })
         }
     },
-    DeleteController: (req, res) => {
-        res.status(200).json({
-            "data": "delete request received"
-        })
+
+    PutController: async (req, res) => {
+        try {
+            const idtoChange = req.body._id;
+            console.log("put request received");
+            console.log(idtoChange);
+
+            console.log(req.body);
+            const changedUser = await Student.findByIdAndUpdate(idtoChange, req.body)
+            console.log(changedUser);
+
+            res.status(200).json({
+                "success": true,
+                "message": "Data updated successfully",
+                "data": changedUser
+            })
+        } catch (err) {
+            console.log(err);
+            res.status(500).json({
+                success: false,
+                "error": "Internal Server Error"
+            })
+        }
+    },
+    DeleteController: async (req, res) => {
+        try {
+        console.log("delete request received");
+        console.log(req.body._id);
+            await Student.findByIdAndDelete(req.body._id);
+            res.status(200).json({
+                "success": true,
+                "message": "Data deleted successfully",
+            })
+        } catch (err) {
+            res.status(500).json({
+                success: false,
+                "error": "Internal Server Error"
+            })
+        }
     }
 }
 

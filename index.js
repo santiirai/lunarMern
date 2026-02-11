@@ -1,13 +1,18 @@
 import express from 'express';
-import router from './routes/index.routes.js';
+import studentRouter from './routes/index.routes.js';
+import authRouter from './routes/auth.routes.js';
 import connectToDatabase from './utils/databaseconnect.js';
+// import authMiddleware from './middleware/authMiddleware.js';      
 
 const app = express();
 
 app.use(express.json());
+
+
 connectToDatabase();
 
+app.use(studentRouter);
+app.use(authRouter);
 
-app.use(router);
 
 app.listen(3000);
